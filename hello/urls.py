@@ -16,12 +16,6 @@ Including another URLconf
 from django.conf.urls import url
 from . import views
 
-# urlpatterns = [
-#     path('<int:id>/<nickname>/', views.index, name='index'),
-# ]
 urlpatterns = [
     url('', views.index, name ='index'),
-    # path('', views.index, name='index'),
-    # path('next', views.next, name='next'),
-    # path('form', views.form, name='form'),
 ]
