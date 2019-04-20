@@ -1,8 +1,8 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 
-#from .forms import HelloForm
 from .models import Friend
-from .forms import FriendForm
+from .forms import FriendForm, FindForm
 
 
 def index(request):
@@ -36,7 +36,7 @@ def edit(request, num):
         friend.save()
         return redirect(to='/hello')
 
-    params={
+    params = {
         'title': 'Hello',
         'id': num,
         'form': FriendForm(instance=obj)
@@ -48,7 +48,7 @@ def delete(request, num):
     friend = Friend.objects.get(id=num)
     if request.method == 'POST':
         friend.delete()
-        return  redirect(to='/hello')
+        return redirect(to='/hello')
     params = {
         'title': 'Hello',
         'id': num,
@@ -56,3 +56,23 @@ def delete(request, num):
     }
     return render(request, 'hello/delete.html', params)
 
+
+def find(request):
+    if request.method == 'POST':
+        msg = 'search result:'
+        form = FindForm(request.POST)
+        str = request.POST['find']
+        val = str.split()
+        data = Friend.objects.filter(Q(name__contains=str) \
+                                     | Q(mail__contains=str))
+    else:
+        msg = 'search words...'
+        form = FindForm()
+        data = Friend.objects.all()
+    params = {
+        'title': 'Hello',
+        'message': msg,
+        'form': form,
+        'data': data,
+    }
+    return render(request, 'hello/find.html', params)
