@@ -6,9 +6,10 @@ from .forms import FriendForm, FindForm
 
 
 def index(request):
-    data = Friend.objects.all()
+    data = Friend.objects.all().order_by('age').reverse()
     params = {
         'title': 'Hello',
+        'message': '',
         'data': data,
     }
     return render(request, 'hello/index.html', params)
@@ -62,9 +63,8 @@ def find(request):
         msg = 'search result:'
         form = FindForm(request.POST)
         str = request.POST['find']
-        val = str.split()
-        data = Friend.objects.filter(Q(name__contains=str) \
-                                     | Q(mail__contains=str))
+        list = str.split()
+        data = Friend.objects.filter(name__in=list)
     else:
         msg = 'search words...'
         form = FindForm()
