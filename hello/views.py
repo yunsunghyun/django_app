@@ -2,7 +2,7 @@ from django.db.models import Q, Count, Sum, Avg, Min, Max
 from django.shortcuts import render, redirect
 
 from .models import Friend
-from .forms import FriendForm, FindForm
+from .forms import FriendForm, FindForm, CheckForm
 
 
 def index(request):
@@ -88,3 +88,19 @@ def find(request):
         'data': data,
     }
     return render(request, 'hello/find.html', params)
+
+
+def check(request):
+    params = {
+        'title': 'Hello',
+        'message': 'check validation. ',
+        'form': CheckForm(),
+    }
+    if request.method == 'POST':
+        form = CheckForm(request.POST)
+        params['form'] = form
+        if form.is_valid():
+            params['message'] = 'OK!'
+        else:
+            params['message'] = 'no good.'
+    return render(request, 'hello/check.html', params)
