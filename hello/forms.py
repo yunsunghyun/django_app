@@ -22,4 +22,10 @@ class FindForm(forms.Form):
 
 
 class CheckForm(forms.Form):
-    str = forms.CharField(label='Name')
+    str = forms.CharField(label='String')
+
+    def clean(self):
+        cleand_data = super().clean()
+        str = cleand_data['str']
+        if str.lower().startswith('no'):
+            raise forms.ValidationError('You input "NO"!')
