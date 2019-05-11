@@ -8,7 +8,7 @@ from .forms import FriendForm, FindForm, CheckForm
 
 def index(request, num=1):
     data = Friend.objects.all()
-    page = Paginator(data, 3)
+    page = Paginator(data, 2)
     params = {
         'title': 'Hello',
         'message': '',
