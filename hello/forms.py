@@ -1,6 +1,6 @@
 from django import forms
 
-from hello.models import Friend
+from hello.models import Friend, Message
 
 
 class HelloForm(forms.Form):
@@ -29,3 +29,9 @@ class CheckForm(forms.Form):
         str = cleand_data['str']
         if str.lower().startswith('no'):
             raise forms.ValidationError('You input "NO"!')
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['title', 'content', 'friend']
